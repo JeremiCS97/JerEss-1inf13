@@ -1,0 +1,11 @@
+.idea
+target
+.DS_Store
+*.tfvars
+*.lock.hcl
+.terraform
+iac/data
+*/.next
+*/node_modules
+.env
+package-lock.json
