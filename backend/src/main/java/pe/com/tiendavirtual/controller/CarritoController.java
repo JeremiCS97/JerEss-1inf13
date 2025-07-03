@@ -62,4 +62,32 @@ public class CarritoController {
     public List<Carrito> listarPorCliente(@PathVariable Long clienteId) {
         return carritoService.listarPorClienteId(clienteId);
     }
+
+    //New controllers
+    @GetMapping("/{id}/productos")
+    public ResponseEntity<List<Object>> consultarProductosConSubtotales(@PathVariable Long id) {
+        Optional<List<Object>> productos = carritoService.consultarProductosConSubtotales(id);
+        return productos.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/reservar")
+    public ResponseEntity<Void> reservarProductos(@PathVariable Long id) {
+        boolean reservado = carritoService.reservarProductos(id);
+        if (reservado) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/{id}/procesar")
+    public ResponseEntity<Void> procesarCarrito(@PathVariable Long id) {
+        boolean procesado = carritoService.procesarCarrito(id);
+        if (procesado) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

@@ -4,35 +4,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.com.tiendavirtual.modelo.LineaDocVenta;
 import pe.com.tiendavirtual.modelo.DocVenta;
-import pe.com.tiendavirtual.service.OrdenService;
+import pe.com.tiendavirtual.service.DocVentaService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/ordenes")
-public class OrdenController {
-    private final OrdenService ordenService;
+@RequestMapping("/api/docventas")
+public class DocVentaController {
+    private final DocVentaService docVentaService;
 
-    public OrdenController(OrdenService ordenService) {
-        this.ordenService = ordenService;
+    public OrdenController(DocVentaService docVentaService) {
+        this.docVentaService = docVentaService;
     }
 
     @GetMapping
     public List<DocVenta> listar() {
-        return ordenService.listarTodos();
+        return docVentaService.listarTodos();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DocVenta> obtenerPorId(@PathVariable Long id) {
-        Optional<DocVenta> orden = ordenService.obtenerPorId(id);
+        Optional<DocVenta> orden = docVentaService.obtenerPorId(id);
         return orden.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/carrito/{carritoId}")
     public List<DocVenta> listarPorCarritoId(@PathVariable Long carritoId) {
-        return ordenService.listarPorCarritoId(carritoId);
+        return docVentaService.listarPorCarritoId(carritoId);
     }
 
     @PostMapping
@@ -42,13 +42,13 @@ public class OrdenController {
                 item.setOrden(orden); // set the parent reference
             }
         }
-        DocVenta nuevaOrden = ordenService.guardar(orden);
+        DocVenta nuevaOrden = docVentaService.guardar(orden);
         return ResponseEntity.ok(nuevaOrden);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DocVenta> actualizar(@PathVariable Long id, @RequestBody DocVenta ordenActualizada) {
-        Optional<DocVenta> ordenExistente = ordenService.obtenerPorId(id);
+        Optional<DocVenta> ordenExistente = docVentaService.obtenerPorId(id);
         if (ordenExistente.isPresent()) {
             ordenActualizada.setId(id);
             if (ordenActualizada.getItems() != null) {
@@ -56,7 +56,7 @@ public class OrdenController {
                     item.setOrden(ordenActualizada);
                 }
             }
-            DocVenta actualizada = ordenService.guardar(ordenActualizada);
+            DocVenta actualizada = docVentaService.guardar(ordenActualizada);
             return ResponseEntity.ok(actualizada);
         } else {
             return ResponseEntity.notFound().build();
@@ -65,7 +65,7 @@ public class OrdenController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        ordenService.eliminar(id);
+        docVentaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }
