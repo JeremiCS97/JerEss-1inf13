@@ -57,68 +57,130 @@ resource "aws_apigatewayv2_integration" "carritos_integration" {
   payload_format_version = "1.0"
 }
 
+# Integraciones DocVentas (antes Ordenes)
 resource "aws_apigatewayv2_integration" "ordenes_integration_get_all" {
+resource "aws_apigatewayv2_integration" "docventas_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
+  api_id                 = aws_apigatewayv2_api.http_api.id
+  integration_type       = "HTTP_PROXY"
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/ordenes"
+  integration_uri        = "http://${var.load_balancer_url}/api/docventas"
+  integration_method     = "ANY"
   integration_method     = "ANY"
   payload_format_version = "1.0"
+  payload_format_version = "1.0"
 }
-
+}
 resource "aws_apigatewayv2_integration" "ordenes_integration" {
+resource "aws_apigatewayv2_integration" "docventas_integration" {
+  api_id                 = aws_apigatewayv2_api.http_api.id
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
+  integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/ordenes/{proxy}"
+  integration_uri        = "http://${var.load_balancer_url}/api/docventas/{proxy}"
+  integration_method     = "ANY"
   integration_method     = "ANY"
   payload_format_version = "1.0"
+  payload_format_version = "1.0"
 }
-
+}
+# EventBridge Integration (solo si lo usas para docventas POST/PUT)
+resource "aws_apigatewayv2_integration" "eventbridge_integration" {
 resource "aws_apigatewayv2_integration" "eventbridge_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
+  api_id                 = aws_apigatewayv2_api.http_api.id
+  integration_type       = "AWS_PROXY"
   integration_type       = "AWS_PROXY"
   integration_subtype    = "EventBridge-PutEvents"
+  integration_subtype    = "EventBridge-PutEvents"
   credentials_arn        = var.rol_lab_arn
-
+  credentials_arn        = var.rol_lab_arn
+  request_parameters = {
   request_parameters = {
     Source       = "pe.com.tiendavirtual"
+    Source       = "pe.com.tiendavirtual"
     DetailType   = "crear-orden"
+    DetailType   = "crear-docventa"
+    Detail       = "$request.body"
     Detail       = "$request.body"
     EventBusName = var.event_bus_name
+    EventBusName = var.event_bus_name
   }
-
+  }
+  payload_format_version = "1.0"
   payload_format_version = "1.0"
   timeout_milliseconds   = 10000
+  timeout_milliseconds   = 10000
 }
-
+}
+resource "aws_apigatewayv2_stage" "default_stage" {
 resource "aws_apigatewayv2_stage" "default_stage" {
   api_id      = aws_apigatewayv2_api.http_api.id
+  api_id      = aws_apigatewayv2_api.http_api.id
+  name        = "$default"
   name        = "$default"
   auto_deploy = true
-
+  auto_deploy = true
+  default_route_settings {
   default_route_settings {
     throttling_burst_limit = 500
+    throttling_burst_limit = 500
+    throttling_rate_limit  = 1000
     throttling_rate_limit  = 1000
   }
-
+  }
+  route_settings {
   route_settings {
     route_key     = "$default"
+    route_key     = "$default"
+    logging_level = "INFO"
     logging_level = "INFO"
   }
+  }
 }
-
+}
+#########################################
 #########################################
 # Routes - Ordenes (EventBridge for POST, PUT)
+# Routes - DocVentas (antes Ordenes)
+#########################################
 #########################################
 resource "aws_apigatewayv2_route" "ordenes_post" {
+resource "aws_apigatewayv2_route" "docventas_post" {
+  api_id    = aws_apigatewayv2_api.http_api.id
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /ordenes"
+  route_key = "POST /docventas"
+  target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
   target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
 }
-
+}
 resource "aws_apigatewayv2_route" "ordenes_put" {
+resource "aws_apigatewayv2_route" "docventas_put_proxy" {
+  api_id    = aws_apigatewayv2_api.http_api.id
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /ordenes/{proxy+}"
+  route_key = "PUT /docventas/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
+}
+resource "aws_apigatewayv2_route" "docventas_get_all" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "GET /docventas"
+  target    = "integrations/${aws_apigatewayv2_integration.docventas_integration_get_all.id}"
+}
+resource "aws_apigatewayv2_route" "docventas_get_proxy" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "GET /docventas/{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.docventas_integration.id}"
+}
+resource "aws_apigatewayv2_route" "docventas_delete_proxy" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "DELETE /docventas/{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.docventas_integration.id}"
+}
 }
 
 #########################################
@@ -219,25 +281,4 @@ resource "aws_apigatewayv2_route" "carritos_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /carritos/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.carritos_integration.id}"
-}
-
-#########################################
-# Routes - Ordenes
-#########################################
-resource "aws_apigatewayv2_route" "ordenes_get_all" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "GET /ordenes"
-  target    = "integrations/${aws_apigatewayv2_integration.ordenes_integration_get_all.id}"
-}
-
-resource "aws_apigatewayv2_route" "ordenes_get_proxy" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "GET /ordenes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.ordenes_integration.id}"
-}
-
-resource "aws_apigatewayv2_route" "ordenes_delete_proxy" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "DELETE /ordenes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.ordenes_integration.id}"
 }
