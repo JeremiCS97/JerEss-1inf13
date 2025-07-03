@@ -40,15 +40,15 @@ public class CarritoService {
     @Transactional
     public Carrito actualizar(Long id, Carrito carritoActualizado) {
         return carritoRepository.findById(id).map(carritoExistente -> {
-            carritoExistente.setNombre(carritoActualizado.getNombre());
+            carritoExistente.setNumCarrito(carritoActualizado.getNumCarrito());
             carritoExistente.setFecha(carritoActualizado.getFecha());
             carritoExistente.setCliente(carritoActualizado.getCliente());
 
-            carritoExistente.getItems().clear();
+            carritoExistente.getLineasCarrito().clear();
 
-            for (LineaCarrito item : carritoActualizado.getItems()) {
+            for (LineaCarrito item : carritoActualizado.getLineasCarrito()) {
                 item.setCarrito(carritoExistente);
-                carritoExistente.getItems().add(item);
+                carritoExistente.getLineasCarrito().add(item);
             }
 
             return carritoRepository.save(carritoExistente);

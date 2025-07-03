@@ -21,7 +21,7 @@ public class LineaCarrito {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProducto")
-//    @JsonBackReference
+    //    @JsonBackReference
     private Producto producto;
 
     @Column(name = "lineaCarrito")
