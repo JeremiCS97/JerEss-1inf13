@@ -38,7 +38,7 @@ public class OrdenService {
     @Transactional
     public DocVenta actualizar(Long id, DocVenta ordenActualizada) {
         return ordenRepository.findById(id).map(ordenExistente -> {
-            ordenExistente.setNumero(ordenActualizada.getNumero());
+            ordenExistente.setNumVenta(ordenActualizada.getNumVenta());
             ordenExistente.setFecha(ordenActualizada.getFecha());
             ordenExistente.setSubTotal(ordenActualizada.getSubTotal());
             ordenExistente.setIgv(ordenActualizada.getIgv());
@@ -47,7 +47,7 @@ public class OrdenService {
 
             ordenExistente.getItems().clear();
             for (LineaDocVenta item : ordenActualizada.getItems()) {
-                item.setOrden(ordenExistente);
+                item.setDocventa(ordenExistente);
                 ordenExistente.getItems().add(item);
             }
 
