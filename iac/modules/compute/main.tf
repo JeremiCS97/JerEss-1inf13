@@ -1,8 +1,8 @@
-resource "aws_ecs_cluster" "cluster_tienda_virtual_servicios" {
+resource "aws_ecs_cluster" "cluster_jeress_servicios" {
     name = var.nombre_cluster
 }
 
-resource "aws_ecs_task_definition" "definicion_tarea_tienda_virtual" {
+resource "aws_ecs_task_definition" "definicion_tarea_jeress" {
     family = var.familia_tarea
     requires_compatibilities = ["FARGATE"]
     network_mode = "awsvpc"
@@ -70,15 +70,15 @@ data "aws_security_group" "grupo_seguridad_por_defecto" {
     vpc_id = data.aws_vpc.vpc_por_defecto.id
 }
 
-resource "aws_ecs_service" "servicio_tienda_virtual" {
+resource "aws_ecs_service" "servicio_jeress" {
     name            = var.nombre_servicio_ecs
-    cluster         = aws_ecs_cluster.cluster_tienda_virtual_servicios.id
-    task_definition = aws_ecs_task_definition.definicion_tarea_tienda_virtual.arn
+    cluster         = aws_ecs_cluster.cluster_jeress_servicios.id
+    task_definition = aws_ecs_task_definition.definicion_tarea_jeress.arn
     desired_count   = 1
     launch_type     = "FARGATE"
 
     load_balancer {
-        target_group_arn = aws_lb_target_group.tg_tienda_virtual.arn
+        target_group_arn = aws_lb_target_group.tg_jeress.arn
         container_name   = "tienda-virtual"
         container_port   = 8080
     }
@@ -94,14 +94,14 @@ resource "aws_ecs_service" "servicio_tienda_virtual" {
     }
 
     depends_on = [
-        aws_ecs_task_definition.definicion_tarea_tienda_virtual,
+        aws_ecs_task_definition.definicion_tarea_jeress,
         aws_lb_listener.http_listener
     ]
 }
 
 resource "aws_appautoscaling_target" "obetivo_escalamiento_ecs" {
     service_namespace  = "ecs"
-    resource_id        = "service/${aws_ecs_cluster.cluster_tienda_virtual_servicios.name}/${aws_ecs_service.servicio_tienda_virtual.name}"
+    resource_id        = "service/${aws_ecs_cluster.cluster_jeress_servicios.name}/${aws_ecs_service.servicio_jeress.name}"
     scalable_dimension = "ecs:service:DesiredCount"
     min_capacity       = 1
     max_capacity       = 4
@@ -125,7 +125,7 @@ resource "aws_appautoscaling_policy" "politica_de_autoescalamiento_ecs" {
     }
 }
 
-resource "aws_lb" "tienda_virtual_load_balancer" {
+resource "aws_lb" "jeress_load_balancer" {
     name               = "tienda-virtual-alb"
     internal           = false
     load_balancer_type = "application"
@@ -133,7 +133,7 @@ resource "aws_lb" "tienda_virtual_load_balancer" {
     security_groups    = [data.aws_security_group.grupo_seguridad_por_defecto.id]
 }
 
-resource "aws_lb_target_group" "tg_tienda_virtual" {
+resource "aws_lb_target_group" "tg_jeress" {
     name     = "tg-tienda-virtual"
     port     = 8080
     protocol = "HTTP"
@@ -151,12 +151,12 @@ resource "aws_lb_target_group" "tg_tienda_virtual" {
 }
 
 resource "aws_lb_listener" "http_listener" {
-    load_balancer_arn = aws_lb.tienda_virtual_load_balancer.arn
+    load_balancer_arn = aws_lb.jeress_load_balancer.arn
     port              = 80
     protocol          = "HTTP"
 
     default_action {
         type             = "forward"
-        target_group_arn = aws_lb_target_group.tg_tienda_virtual.arn
+        target_group_arn = aws_lb_target_group.tg_jeress.arn
     }
 }

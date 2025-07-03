@@ -19,3 +19,25 @@ resource "aws_lambda_function" "crear_orden" {
     }
   }
 }
+
+data "archive_file" "archivo_procesar_carrito_lambda" {
+  type        = "zip"
+  source_dir  = "${path.root}/../serverless/tiendavirtual/packages/funciones/procesar-carrito/build"
+  output_path = "${path.root}/data/procesar_carrito_lambda.zip"
+}
+
+resource "aws_lambda_function" "procesar_carrito" {
+  function_name    = "procesar-carrito"
+  handler          = "index.handler"
+  runtime          = var.entorno_ejecucion
+  role             = var.rol_lambda_arn
+  filename         = data.archive_file.archivo_procesar_carrito_lambda.output_path
+  source_code_hash = filebase64sha256(data.archive_file.archivo_procesar_carrito_lambda.output_path)
+  timeout          = 60
+  memory_size      = 512
+  environment {
+    variables = {
+        URL_BASE_SERVICIO = var.url_base_servicio
+    }
+  }
+}
