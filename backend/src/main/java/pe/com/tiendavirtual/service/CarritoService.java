@@ -3,7 +3,7 @@ package pe.com.tiendavirtual.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.com.tiendavirtual.modelo.Carrito;
-import pe.com.tiendavirtual.modelo.ItemCarrito;
+import pe.com.tiendavirtual.modelo.LineaCarrito;
 import pe.com.tiendavirtual.repositorio.CarritoRepository;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class CarritoService {
 
             carritoExistente.getItems().clear();
 
-            for (ItemCarrito item : carritoActualizado.getItems()) {
+            for (LineaCarrito item : carritoActualizado.getItems()) {
                 item.setCarrito(carritoExistente);
                 carritoExistente.getItems().add(item);
             }

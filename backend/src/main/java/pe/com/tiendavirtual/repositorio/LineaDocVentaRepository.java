@@ -1,0 +1,10 @@
+package pe.com.tiendavirtual.repositorio;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import pe.com.tiendavirtual.modelo.LineaDocVenta;
+
+import java.util.List;
+
+public interface LineaDocVentaRepository extends JpaRepository<LineaDocVenta, Long> {
+    List<LineaDocVenta> findByOrdenId(Long ordenId);
+}

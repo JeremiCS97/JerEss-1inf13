@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CarritoRepository extends JpaRepository<Carrito, Long> {
     List<Carrito> findByClienteId(Long clienteId);
+    Carrito findByNumCarrito(Integer numCarrito);
 }

@@ -2,9 +2,9 @@ package pe.com.tiendavirtual.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pe.com.tiendavirtual.modelo.ItemOrden;
-import pe.com.tiendavirtual.modelo.Orden;
-import pe.com.tiendavirtual.repositorio.OrdenRepository;
+import pe.com.tiendavirtual.modelo.LineaDocVenta;
+import pe.com.tiendavirtual.modelo.DocVenta;
+import pe.com.tiendavirtual.repositorio.DocVentaRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,31 +12,31 @@ import java.util.Optional;
 @Service
 public class OrdenService {
 
-    private final OrdenRepository ordenRepository;
+    private final DocVentaRepository ordenRepository;
 
-    public OrdenService(OrdenRepository ordenRepository) {
+    public OrdenService(DocVentaRepository ordenRepository) {
         this.ordenRepository = ordenRepository;
     }
 
-    public List<Orden> listarTodos() {
+    public List<DocVenta> listarTodos() {
         return ordenRepository.findAll();
     }
 
-    public Optional<Orden> obtenerPorId(Long id) {
+    public Optional<DocVenta> obtenerPorId(Long id) {
         return ordenRepository.findById(id);
     }
 
-    public List<Orden> listarPorCarritoId(Long carritoId) {
+    public List<DocVenta> listarPorCarritoId(Long carritoId) {
         return ordenRepository.findByCarritoId(carritoId);
     }
 
-    public Orden guardar(Orden orden) {
+    public DocVenta guardar(DocVenta orden) {
         // CascadeType.ALL ensures items will be persisted
         return ordenRepository.save(orden);
     }
 
     @Transactional
-    public Orden actualizar(Long id, Orden ordenActualizada) {
+    public DocVenta actualizar(Long id, DocVenta ordenActualizada) {
         return ordenRepository.findById(id).map(ordenExistente -> {
             ordenExistente.setNumero(ordenActualizada.getNumero());
             ordenExistente.setFecha(ordenActualizada.getFecha());
@@ -46,7 +46,7 @@ public class OrdenService {
             ordenExistente.setCarrito(ordenActualizada.getCarrito());
 
             ordenExistente.getItems().clear();
-            for (ItemOrden item : ordenActualizada.getItems()) {
+            for (LineaDocVenta item : ordenActualizada.getItems()) {
                 item.setOrden(ordenExistente);
                 ordenExistente.getItems().add(item);
             }

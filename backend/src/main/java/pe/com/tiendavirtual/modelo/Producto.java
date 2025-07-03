@@ -1,5 +1,7 @@
 package pe.com.tiendavirtual.modelo;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,18 +15,22 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "codigo")
-    private String codigo;
+    @Column(name = "codProducto")
+    private String codProducto;
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "nomProducto")
+    private String nomProducto;
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "descProducto")
+    private String descProducto;
 
-    @Column(name = "precio")
-    private double precio;
+    @Column(name = "precProducto")
+    private BigDecimal precProducto;
 
-    @Column(name = "stock")
-    private int stock;
+    @Column(name = "cantProducto")
+    private Integer cantProducto;
+    
+    @Column(name = "estaActivo")
+    private Boolean estaActivo;
+    
 }

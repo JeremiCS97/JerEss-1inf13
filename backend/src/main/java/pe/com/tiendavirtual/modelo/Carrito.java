@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,11 +20,17 @@ public class Carrito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "numCarrito")
+    private Integer numCarrito;
 
     @Column(name = "fecha")
     private Date fecha;
+
+    @Column(name = "total")
+    private BigDecimal total;
+
+    @Column(name = "igv")
+    private BigDecimal igv;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCliente")
@@ -32,5 +39,8 @@ public class Carrito {
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<ItemCarrito> items = new ArrayList<>();
+    private List<LineaCarrito> lineasCarrito = new ArrayList<>();
+
+    @OneToOne(mappedBy = "carrito")
+    private DocVenta docVenta;
 }

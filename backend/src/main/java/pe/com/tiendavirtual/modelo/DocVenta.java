@@ -9,15 +9,15 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "ORDEN")
+@Table(name = "DOCVENTA")
 @Data
-public class Orden {
+public class DocVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="numero")
-    private String numero;
+    @Column(name = "numVenta")
+    private Integer numVenta;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCarrito")
@@ -38,5 +38,5 @@ public class Orden {
 
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference("order-items")
-    private List<ItemOrden> items = new ArrayList<>();
+    private List<LineaDocVenta> items = new ArrayList<>();
 }

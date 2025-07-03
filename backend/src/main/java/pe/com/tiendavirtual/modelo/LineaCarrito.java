@@ -1,30 +1,39 @@
 package pe.com.tiendavirtual.modelo;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "ITEMORDEN")
+@Table(name = "ITEMCARRITO")
 @Data
-public class ItemOrden {
+public class LineaCarrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOrden")
-    @JsonBackReference("order-items")
-    private Orden orden;
+    @JoinColumn(name = "idCarrito")
+    @JsonBackReference
+    private Carrito carrito;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProducto")
-    @JsonBackReference
+//    @JsonBackReference
     private Producto producto;
+
+    @Column(name = "lineaCarrito")
+    private Integer lineaCarrito;
 
     @Column(name="cantidad")
     private int cantidad;
 
-    @Column(name="subTotal")
-    private double subTotal;
+    @Column(name = "total")
+    private BigDecimal total;
+
+    @OneToOne(mappedBy = "lineaCarrito")
+    private LineaDocVenta lineaDocVenta;
+    
 }
