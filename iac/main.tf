@@ -31,6 +31,8 @@ module "events" {
     source = "./modules/events"
     crear_docventa_funcion_arn = module.serverless.crear_docventa_funcion_arn
     crear_docventa_funcion_name = module.serverless.crear_docventa_funcion_name
+    procesar_carrito_funcion_arn    = module.serverless.procesar_carrito_funcion_arn
+    procesar_carrito_funcion_name   = module.serverless.procesar_carrito_funcion_name
 }
 
 module "api" {
