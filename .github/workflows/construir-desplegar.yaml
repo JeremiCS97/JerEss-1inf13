@@ -73,7 +73,7 @@ jobs:
         run: |
           terraform apply \
             -var="id_cuenta_aws=${{ vars.AWS_ACCOUNT_ID }}" \
-            -var="rol_lab_arn=${{ vars.ROL_LAB_ARN }}" \
+            -var="rol_lab_arn=arn:aws:iam::267352384382:role/LabRole" \
             -var="url_base_servicio=${{ vars.URL_BASE_SERVICIO }}" \
             -var="nombre_cluster_ecs=${{ vars.NOMBRE_CLUSTER }}" \
             -var="familia_tarea_ecs=${{ vars.FAMILIA_TAREA_ECS }}" \
