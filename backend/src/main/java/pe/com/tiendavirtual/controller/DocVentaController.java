@@ -39,7 +39,7 @@ public class DocVentaController {
     public ResponseEntity<DocVenta> crear(@RequestBody DocVenta orden) {
         if (orden.getItems() != null) {
             for (LineaDocVenta item : orden.getItems()) {
-                item.setDocventa(orden); // set the parent reference
+                item.setDocVenta(orden); // set the parent reference
             }
         }
         DocVenta nuevaOrden = docVentaService.guardar(orden);
@@ -53,7 +53,7 @@ public class DocVentaController {
             ordenActualizada.setId(id);
             if (ordenActualizada.getItems() != null) {
                 for (LineaDocVenta item : ordenActualizada.getItems()) {
-                    item.setDocventa(ordenActualizada);
+                    item.setDocVenta(ordenActualizada);
                 }
             }
             DocVenta actualizada = docVentaService.guardar(ordenActualizada);

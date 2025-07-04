@@ -47,7 +47,7 @@ public class DocVentaService {
 
             ordenExistente.getItems().clear();
             for (LineaDocVenta item : ordenActualizada.getItems()) {
-                item.setDocventa(ordenExistente);
+                item.setDocVenta(ordenExistente);
                 ordenExistente.getItems().add(item);
             }
 

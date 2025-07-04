@@ -12,7 +12,7 @@ public interface CarritoRepository extends JpaRepository<Carrito, Long> {
     Carrito findByNumCarrito(Integer numCarrito);
 
     //nuevos repositorios
-    List<Object> findByIdAndItemsProducto(Long carritoId);
-    void updateItemsReservadoByCarritoId(Long carritoId);
-    void updateProcesadoById(Long carritoId);
+    // List<Object> findByIdAndItemsProducto(Long carritoId);
+    // void updateItemsReservadoByCarritoId(Long carritoId);
+    // void updateProcesadoById(Long carritoId);
 }

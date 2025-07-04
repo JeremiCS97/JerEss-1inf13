@@ -6,5 +6,5 @@ import pe.com.tiendavirtual.modelo.LineaDocVenta;
 import java.util.List;
 
 public interface LineaDocVentaRepository extends JpaRepository<LineaDocVenta, Long> {
-    List<LineaDocVenta> findByOrdenId(Long ordenId);
+    List<LineaDocVenta> findByDocVentaId(Long docVentaId);
 }

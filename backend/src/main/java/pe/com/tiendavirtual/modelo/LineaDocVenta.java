@@ -15,7 +15,7 @@ public class LineaDocVenta {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idDocVenta")
     @JsonBackReference("docventa-lineas")
-    private DocVenta docventa;
+    private DocVenta docVenta;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProducto")
@@ -30,4 +30,8 @@ public class LineaDocVenta {
 
     @Column(name="subTotal")
     private double subTotal;
+
+    @OneToOne
+    @JoinColumn(name = "idLineaCarrito")
+    private LineaCarrito lineaCarrito;
 }
