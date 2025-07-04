@@ -9,7 +9,7 @@ resource "aws_apigatewayv2_api" "http_api" {
   }
 }
 
-resource "aws_apigatewayv2_integration" "productos_integration_get_all" {
+resource "aws_apigatewayv2_integration_jeress" "productos_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/productos"
@@ -17,7 +17,7 @@ resource "aws_apigatewayv2_integration" "productos_integration_get_all" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "productos_integration" {
+resource "aws_apigatewayv2_integration_jeress" "productos_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/productos/{proxy}"
@@ -25,7 +25,7 @@ resource "aws_apigatewayv2_integration" "productos_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "clientes_integration_get_all" {
+resource "aws_apigatewayv2_integration_jeress" "clientes_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/clientes"
@@ -33,7 +33,7 @@ resource "aws_apigatewayv2_integration" "clientes_integration_get_all" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "clientes_integration" {
+resource "aws_apigatewayv2_integration_jeress" "clientes_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/clientes/{proxy}"
@@ -41,7 +41,7 @@ resource "aws_apigatewayv2_integration" "clientes_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "carritos_integration_get_all" {
+resource "aws_apigatewayv2_integration_jeress" "carritos_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/carritos"
@@ -49,7 +49,7 @@ resource "aws_apigatewayv2_integration" "carritos_integration_get_all" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "carritos_integration" {
+resource "aws_apigatewayv2_integration_jeress" "carritos_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
   integration_uri        = "http://${var.load_balancer_url}/api/carritos/{proxy}"
@@ -58,8 +58,8 @@ resource "aws_apigatewayv2_integration" "carritos_integration" {
 }
 
 # Integraciones DocVentas (antes Ordenes)
-resource "aws_apigatewayv2_integration" "ordenes_integration_get_all" {
-resource "aws_apigatewayv2_integration" "docventas_integration_get_all" {
+resource "aws_apigatewayv2_integration_jeress" "ordenes_integration_get_all" {
+resource "aws_apigatewayv2_integration_jeress" "docventas_integration_get_all" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
@@ -72,8 +72,8 @@ resource "aws_apigatewayv2_integration" "docventas_integration_get_all" {
   payload_format_version = "1.0"
 }
 }
-resource "aws_apigatewayv2_integration" "ordenes_integration" {
-resource "aws_apigatewayv2_integration" "docventas_integration" {
+resource "aws_apigatewayv2_integration_jeress" "ordenes_integration" {
+resource "aws_apigatewayv2_integration_jeress" "docventas_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "HTTP_PROXY"
@@ -87,8 +87,8 @@ resource "aws_apigatewayv2_integration" "docventas_integration" {
 }
 }
 # EventBridge Integration (solo si lo usas para docventas POST/PUT)
-resource "aws_apigatewayv2_integration" "eventbridge_integration" {
-resource "aws_apigatewayv2_integration" "eventbridge_integration" {
+resource "aws_apigatewayv2_integration_jeress" "eventbridge_integration" {
+resource "aws_apigatewayv2_integration_jeress" "eventbridge_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "AWS_PROXY"
@@ -153,8 +153,8 @@ resource "aws_apigatewayv2_route" "docventas_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /ordenes"
   route_key = "POST /docventas"
-  target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
-  target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.eventbridge_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.eventbridge_integration.id}"
 }
 }
 resource "aws_apigatewayv2_route" "ordenes_put" {
@@ -163,23 +163,23 @@ resource "aws_apigatewayv2_route" "docventas_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /ordenes/{proxy+}"
   route_key = "PUT /docventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
-  target    = "integrations/${aws_apigatewayv2_integration.eventbridge_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.eventbridge_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.eventbridge_integration.id}"
 }
 resource "aws_apigatewayv2_route" "docventas_get_all" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /docventas"
-  target    = "integrations/${aws_apigatewayv2_integration.docventas_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.docventas_integration_get_all.id}"
 }
 resource "aws_apigatewayv2_route" "docventas_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /docventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.docventas_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.docventas_integration.id}"
 }
 resource "aws_apigatewayv2_route" "docventas_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /docventas/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.docventas_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.docventas_integration.id}"
 }
 }
 
@@ -189,31 +189,31 @@ resource "aws_apigatewayv2_route" "docventas_delete_proxy" {
 resource "aws_apigatewayv2_route" "clientes_get_all" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /clientes"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.clientes_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /clientes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.clientes_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /clientes"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.clientes_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /clientes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.clientes_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "clientes_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /clientes/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.clientes_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.clientes_integration.id}"
 }
 
 #########################################
@@ -223,31 +223,31 @@ resource "aws_apigatewayv2_route" "clientes_delete_proxy" {
 resource "aws_apigatewayv2_route" "producto_get_all" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /productos"
-  target    = "integrations/${aws_apigatewayv2_integration.productos_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.productos_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "producto_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /productos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.productos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.productos_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "producto_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /productos"
-  target    = "integrations/${aws_apigatewayv2_integration.productos_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.productos_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "producto_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /productos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.productos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.productos_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "producto_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /productos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.productos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.productos_integration.id}"
 }
 
 #########################################
@@ -256,29 +256,29 @@ resource "aws_apigatewayv2_route" "producto_delete_proxy" {
 resource "aws_apigatewayv2_route" "carritos_get_all" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /carritos"
-  target    = "integrations/${aws_apigatewayv2_integration.carritos_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.carritos_integration_get_all.id}"
 }
 
 resource "aws_apigatewayv2_route" "carritos_get_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "GET /carritos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.carritos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.carritos_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "carritos_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /carritos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.carritos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.carritos_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "carritos_put_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "PUT /carritos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.carritos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.carritos_integration.id}"
 }
 
 resource "aws_apigatewayv2_route" "carritos_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /carritos/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.carritos_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration_jeress.carritos_integration.id}"
 }
