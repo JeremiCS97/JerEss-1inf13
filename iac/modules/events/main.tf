@@ -7,7 +7,7 @@ resource "aws_cloudwatch_event_rule" "crear_orden" {
     description    = "Regla para crear orden desde evento personalizado"
     event_bus_name = aws_cloudwatch_event_bus.ordenes_bus.name
     event_pattern = jsonencode({
-        source       = ["pe.com.tiendavirtual"],
+        source       = ["pe.com.jeress"],
         "detail-type": ["crear-orden"]
     })
 }
@@ -32,7 +32,7 @@ resource "aws_cloudwatch_event_rule" "procesar_carrito" {
     description    = "Regla para procesar carrito desde evento personalizado"
     event_bus_name = aws_cloudwatch_event_bus.ordenes_bus.name
     event_pattern = jsonencode({
-        source       = ["pe.com.tiendavirtual"],
+        source       = ["pe.com.jeress"],
         "detail-type": ["procesar-carrito"]
     })
 }

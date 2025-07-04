@@ -1,6 +1,6 @@
 ## Inicializar el estado de Terraform
 
-AWS_PROFILE=academy terraform init -backend-config "bucket=tiendavirtual-iac-state" -backend-config "dynamodb_table=terraform-locks"
+AWS_PROFILE=academy terraform init -backend-config "bucket=jeress-iac-state" -backend-config "dynamodb_table=terraform-locks"
 
 ## Validar el plan de Terraform
 

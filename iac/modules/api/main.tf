@@ -99,8 +99,8 @@ resource "aws_apigatewayv2_integration" "eventbridge_integration" {
   credentials_arn        = var.rol_lab_arn
   request_parameters = {
   request_parameters = {
-    Source       = "pe.com.tiendavirtual"
-    Source       = "pe.com.tiendavirtual"
+    Source       = "pe.com.jeress"
+    Source       = "pe.com.jeress"
     DetailType   = "crear-orden"
     DetailType   = "crear-docventa"
     Detail       = "$request.body"

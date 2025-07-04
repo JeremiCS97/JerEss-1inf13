@@ -52,7 +52,7 @@ jobs:
       
       - name: Build Lambda Functions
         run: |
-          cd serverless/tiendavirtual/packages/funciones/crear-orden
+          cd serverless/jeress/packages/funciones/crear-orden
           npm ci
           npm run build
 

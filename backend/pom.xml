@@ -8,10 +8,10 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>pe.com.tiendavirtual</groupId>
-	<artifactId>tiendavirtualapp</artifactId>
+	<groupId>pe.com.jeress</groupId>
+	<artifactId>jeressapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tiendavirtualapp</name>
+	<name>jeressapp</name>
 	<description>Demo project para una Tienda Virtual</description>
 	<url/>
 	<licenses>

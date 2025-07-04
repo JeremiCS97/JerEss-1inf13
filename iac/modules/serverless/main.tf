@@ -1,6 +1,6 @@
 data "archive_file" "archivo_crear_orden_lambda" {
   type        = "zip"
-  source_dir  = "${path.root}/../serverless/tiendavirtual/packages/funciones/crear-orden/build"
+  source_dir  = "${path.root}/../serverless/jeress/packages/funciones/crear-orden/build"
   output_path = "${path.root}/data/crear_orden_lambda.zip"
 }
 
@@ -22,7 +22,7 @@ resource "aws_lambda_function" "crear_orden" {
 
 data "archive_file" "archivo_procesar_carrito_lambda" {
   type        = "zip"
-  source_dir  = "${path.root}/../serverless/tiendavirtual/packages/funciones/procesar-carrito/build"
+  source_dir  = "${path.root}/../serverless/jeress/packages/funciones/procesar-carrito/build"
   output_path = "${path.root}/data/procesar_carrito_lambda.zip"
 }
 
