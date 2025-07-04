@@ -56,7 +56,7 @@ jobs:
       
       - name: Build Lambda Functions
         run: |
-          cd serverless/jeress/packages/funciones/crear-orden
+          cd serverless/jeress/packages/funciones/crear-docventa
           npm ci
           npm run build
 

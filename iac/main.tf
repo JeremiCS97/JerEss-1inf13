@@ -29,8 +29,8 @@ module "compute" {
 
 module "events" {
     source = "./modules/events"
-    crear_orden_funcion_arn = module.serverless.crear_orden_funcion_arn
-    crear_orden_funcion_name = module.serverless.crear_orden_funcion_name
+    crear_docventa_funcion_arn = module.serverless.crear_docventa_funcion_arn
+    crear_docventa_funcion_name = module.serverless.crear_docventa_funcion_name
 }
 
 module "api" {
