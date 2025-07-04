@@ -12,32 +12,32 @@ import java.util.Optional;
 @Service
 public class DocVentaService {
 
-    private final DocVentaRepository ordenRepository;
+    private final DocVentaRepository DocVentaRepository;
 
-    public OrdenService(DocVentaRepository ordenRepository) {
-        this.ordenRepository = ordenRepository;
+    public DocVentaService(DocVentaRepository ordenRepository) {
+        this.DocVentaRepository = ordenRepository;
     }
 
     public List<DocVenta> listarTodos() {
-        return ordenRepository.findAll();
+        return DocVentaRepository.findAll();
     }
 
     public Optional<DocVenta> obtenerPorId(Long id) {
-        return ordenRepository.findById(id);
+        return DocVentaRepository.findById(id);
     }
 
     public List<DocVenta> listarPorCarritoId(Long carritoId) {
-        return ordenRepository.findByCarritoId(carritoId);
+        return DocVentaRepository.findByCarritoId(carritoId);
     }
 
     public DocVenta guardar(DocVenta orden) {
         // CascadeType.ALL ensures items will be persisted
-        return ordenRepository.save(orden);
+        return DocVentaRepository.save(orden);
     }
 
     @Transactional
     public DocVenta actualizar(Long id, DocVenta ordenActualizada) {
-        return ordenRepository.findById(id).map(ordenExistente -> {
+        return DocVentaRepository.findById(id).map(ordenExistente -> {
             ordenExistente.setNumVenta(ordenActualizada.getNumVenta());
             ordenExistente.setFecha(ordenActualizada.getFecha());
             ordenExistente.setSubTotal(ordenActualizada.getSubTotal());
@@ -51,11 +51,11 @@ public class DocVentaService {
                 ordenExistente.getItems().add(item);
             }
 
-            return ordenRepository.save(ordenExistente);
+            return DocVentaRepository.save(ordenExistente);
         }).orElseThrow(() -> new RuntimeException("Orden no encontrada con id " + id));
     }
 
     public void eliminar(Long id) {
-        ordenRepository.deleteById(id);
+        DocVentaRepository.deleteById(id);
     }
 }

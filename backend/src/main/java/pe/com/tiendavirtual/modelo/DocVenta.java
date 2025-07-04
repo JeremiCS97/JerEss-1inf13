@@ -36,7 +36,7 @@ public class DocVenta {
     @Column(name="total")
     private double total;
 
-    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference("order-items")
+    @OneToMany(mappedBy = "docVenta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference("docventa-lineas")
     private List<LineaDocVenta> items = new ArrayList<>();
 }

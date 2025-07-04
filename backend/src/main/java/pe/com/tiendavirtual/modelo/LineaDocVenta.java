@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "ITEMORDEN")
+@Table(name = "LINEADOCVENTA")
 @Data
 public class LineaDocVenta {
     @Id
@@ -13,8 +13,8 @@ public class LineaDocVenta {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOrden")
-    @JsonBackReference("order-items")
+    @JoinColumn(name = "idDocVenta")
+    @JsonBackReference("docventa-lineas")
     private DocVenta docventa;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,6 +24,9 @@ public class LineaDocVenta {
 
     @Column(name="cantidad")
     private int cantidad;
+
+    @Column(name = "precioUnitario")
+    private double precioUnitario;
 
     @Column(name="subTotal")
     private double subTotal;

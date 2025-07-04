@@ -14,7 +14,7 @@ import java.util.Optional;
 public class DocVentaController {
     private final DocVentaService docVentaService;
 
-    public OrdenController(DocVentaService docVentaService) {
+    public DocVentaController(DocVentaService docVentaService) {
         this.docVentaService = docVentaService;
     }
 
@@ -39,7 +39,7 @@ public class DocVentaController {
     public ResponseEntity<DocVenta> crear(@RequestBody DocVenta orden) {
         if (orden.getItems() != null) {
             for (LineaDocVenta item : orden.getItems()) {
-                item.setOrden(orden); // set the parent reference
+                item.setDocventa(orden); // set the parent reference
             }
         }
         DocVenta nuevaOrden = docVentaService.guardar(orden);
@@ -53,7 +53,7 @@ public class DocVentaController {
             ordenActualizada.setId(id);
             if (ordenActualizada.getItems() != null) {
                 for (LineaDocVenta item : ordenActualizada.getItems()) {
-                    item.setOrden(ordenActualizada);
+                    item.setDocventa(ordenActualizada);
                 }
             }
             DocVenta actualizada = docVentaService.guardar(ordenActualizada);

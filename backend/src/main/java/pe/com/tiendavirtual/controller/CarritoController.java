@@ -31,8 +31,8 @@ public class CarritoController {
 
     @PostMapping
     public ResponseEntity<Carrito> crear(@RequestBody Carrito carrito) {
-        if (carrito.getItems() != null) {
-            carrito.getItems().forEach(item -> item.setCarrito(carrito));
+        if (carrito.getLineasCarrito() != null) {
+            carrito.getLineasCarrito().forEach(item -> item.setCarrito(carrito));
         }
         Carrito nuevoCarrito = carritoService.guardar(carrito);
         return ResponseEntity.ok(nuevoCarrito);
@@ -43,8 +43,8 @@ public class CarritoController {
         Optional<Carrito> carritoExistente = carritoService.obtenerPorId(id);
         if (carritoExistente.isPresent()) {
             carritoActualizado.setId(id);
-            if (carritoActualizado.getItems() != null) {
-                carritoActualizado.getItems().forEach(item -> item.setCarrito(carritoActualizado));
+            if (carritoActualizado.getLineasCarrito() != null) {
+                carritoActualizado.getLineasCarrito().forEach(item -> item.setCarrito(carritoActualizado));
             }
             return ResponseEntity.ok(carritoService.guardar(carritoActualizado));
         } else {

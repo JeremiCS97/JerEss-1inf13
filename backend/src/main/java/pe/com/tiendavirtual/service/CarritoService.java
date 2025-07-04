@@ -54,4 +54,60 @@ public class CarritoService {
             return carritoRepository.save(carritoExistente);
         }).orElseThrow(() -> new RuntimeException("Carrito no encontrado con id " + id));
     }
+
+    public Optional<List<Object>> consultarProductosConSubtotales(Long carritoId) {
+        return carritoRepository.findById(carritoId)
+            .map(carrito -> carrito.getLineasCarrito().stream()
+                .map(linea -> {
+                    var map = new java.util.HashMap<String, Object>();
+                    map.put("producto", linea.getProducto());
+                    map.put("cantidad", linea.getCantidad());
+                    map.put("subtotal", linea.getTotal());
+                    return (Object) map;
+                })
+                .toList()
+            );
+    }
+
+    @Transactional
+    public boolean reservarProductos(Long carritoId) {
+        Optional<Carrito> optCarrito = carritoRepository.findById(carritoId);
+        if (optCarrito.isEmpty()) return false;
+        Carrito carrito = optCarrito.get();
+
+        for (LineaCarrito linea : carrito.getLineasCarrito()) {
+            if (linea.getProducto() == null ||
+                !Boolean.TRUE.equals(linea.getProducto().getEstaActivo()) ||
+                linea.getProducto().getCantProducto() < linea.getCantidad()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Transactional
+    public boolean procesarCarrito(Long carritoId) {
+        Optional<Carrito> optCarrito = carritoRepository.findById(carritoId);
+        if (optCarrito.isEmpty()) return false;
+        Carrito carrito = optCarrito.get();
+
+        // Validar stock y estado de productos
+        for (LineaCarrito linea : carrito.getLineasCarrito()) {
+            if (linea.getProducto() == null ||
+                !Boolean.TRUE.equals(linea.getProducto().getEstaActivo()) ||
+                linea.getProducto().getCantProducto() < linea.getCantidad()) {
+                return false;
+            }
+        }
+
+        // Descontar stock
+        for (LineaCarrito linea : carrito.getLineasCarrito()) {
+            int nuevoStock = linea.getProducto().getCantProducto() - linea.getCantidad();
+            linea.getProducto().setCantProducto(nuevoStock);
+            linea.getProducto().setEstaActivo(nuevoStock > 0);
+        }
+
+        carritoRepository.save(carrito);
+        return true;
+    }
 }
