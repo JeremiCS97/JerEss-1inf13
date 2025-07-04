@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "definicion_tarea_jeress" {
     task_role_arn = var.rol_lab_arn
 
     container_definitions = jsonencode([{
-        name = "tienda-virtual",
+        name = "jeress",
         image = "${var.id_cuenta_aws}.dkr.ecr.${var.region_aws}.amazonaws.com/${var.nombre_repo_ecr}:latest",
         essential = true,
         portMappings = [
@@ -79,7 +79,7 @@ resource "aws_ecs_service" "servicio_jeress" {
 
     load_balancer {
         target_group_arn = aws_lb_target_group.tg_jeress.arn
-        container_name   = "tienda-virtual"
+        container_name   = "jeress"
         container_port   = 8080
     }
 
@@ -126,7 +126,7 @@ resource "aws_appautoscaling_policy" "politica_de_autoescalamiento_ecs" {
 }
 
 resource "aws_lb" "jeress_load_balancer" {
-    name               = "tienda-virtual-alb"
+    name               = "jeress-alb"
     internal           = false
     load_balancer_type = "application"
     subnets            = data.aws_subnets.sub_redes_por_defecto.ids
@@ -134,7 +134,7 @@ resource "aws_lb" "jeress_load_balancer" {
 }
 
 resource "aws_lb_target_group" "tg_jeress" {
-    name     = "tg-tienda-virtual"
+    name     = "tg-jeress"
     port     = 8080
     protocol = "HTTP"
     vpc_id   = data.aws_vpc.vpc_por_defecto.id

@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "tienda-virtual-api"
+  name          = "jeress-api"
   protocol_type = "HTTP"
 
   cors_configuration {
