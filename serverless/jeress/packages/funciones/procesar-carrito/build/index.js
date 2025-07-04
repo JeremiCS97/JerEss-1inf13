@@ -18,7 +18,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     }
     console.log('Evento Recibido:', JSON.stringify(event, null, 2));
     try {
-        const response = yield fetch(`${baseUrl}/ordenes`, {
+        const response = yield fetch(`${baseUrl}/docventas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

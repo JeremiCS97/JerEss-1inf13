@@ -1,10 +1,10 @@
 variable "crear_docventa_funcion_arn" {
-    description = "ARN de la función Lambda para crear ordenes"
+    description = "ARN de la función Lambda para crear docventas"
     type        = string
 }
 
 variable crear_docventa_funcion_name {
-    description = "Nombre de la función Lambda para crear ordenes"
+    description = "Nombre de la función Lambda para crear docventas"
     type        = string
 }
 

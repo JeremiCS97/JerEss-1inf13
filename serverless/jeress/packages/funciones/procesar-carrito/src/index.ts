@@ -13,7 +13,7 @@ export const handler = async (
   console.log('Evento Recibido:', JSON.stringify(event, null, 2));
 
   try {
-    const response = await fetch(`${baseUrl}/ordenes`, {
+    const response = await fetch(`${baseUrl}/docventas`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

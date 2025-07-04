@@ -1,9 +1,9 @@
 output "crear_docventa_funcion_arn" {
-  description = "ARN de la función para crear ordenes"
+  description = "ARN de la función para crear docventas"
   value       = aws_lambda_function.crear_docventa.arn
 }
 output "crear_docventa_funcion_name" {
-  description = "Nombre de la función Lambda para crear ordenes"
+  description = "Nombre de la función Lambda para crear docventas"
   value       = aws_lambda_function.crear_docventa.function_name
 }
 output "procesar_carrito_funcion_arn" {

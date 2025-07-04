@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_bus" "docventas_bus" {
-    name = "ordenes-bus"
+    name = "docventas-bus"
 }
 
 resource "aws_cloudwatch_event_rule" "crear_docventa" {
