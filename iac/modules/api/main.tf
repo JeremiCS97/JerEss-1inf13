@@ -136,7 +136,7 @@ resource "aws_apigatewayv2_route" "docventas_delete_proxy" {
   route_key = "DELETE /docventas/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration_jeress.docventas_integration.id}"
 }
-}
+
 
 #########################################
 # Routes - Clientes
