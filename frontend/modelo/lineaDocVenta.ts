@@ -1,9 +1,9 @@
-import { Orden } from "./orden";
+import { DocVenta } from "./docVenta";
 import { Producto } from "./producto";
 
-export interface ItemOrden {
+export interface LineadDocVenta {
     id: number;
-    orden: Orden;
+    docVenta: DocVenta;
     producto: Producto;
     cantidad: number;
     subTotal: number;

@@ -1,5 +1,5 @@
 import { Carrito } from "@/modelo/carrito";
-import { ItemCarrito } from "@/modelo/itemCarrito";
+import { ItemCarrito } from "@/modelo/lineaCarrito";
 
 
 export async function getCarritos(): Promise<Carrito[]> {

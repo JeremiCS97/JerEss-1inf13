@@ -5,7 +5,7 @@ import * as carritosApi from '@/lib/api/carrito';
 import { useMensaje } from '@/hooks/useMensaje';
 import { Producto } from '@/modelo/producto';
 import { Carrito } from '@/modelo/carrito';
-import { ItemCarrito } from '@/modelo/itemCarrito';
+import { LineaCarrito } from '@/modelo/lineaCarrito';
 
 export function useCarrito() {
     const [carrito, setCarrito] = useState<Carrito>({} as Carrito);
@@ -17,7 +17,7 @@ export function useCarrito() {
   
         if (existingItem) {
           const nuevaCantidad = existingItem.cantidad + 1;
-          const subTotal = nuevaCantidad * producto.precio;
+          const subTotal = nuevaCantidad * producto.precProducto;
 
           const nuevoCarrito = await carritosApi.actualizarItemCarrito({
             ...existingItem,
@@ -27,18 +27,19 @@ export function useCarrito() {
 
           setCarrito(nuevoCarrito);
         } else {
-          const nuevoItem: Omit<ItemCarrito, 'id'> = {
+          const nuevoLineaCarrito: Omit<LineaCarrito, 'id'> = {
               carrito: carrito,
               producto: producto,
+              lineaCarrito:0,
               cantidad: 1,
-              subTotal: producto.precio
+              total: producto.precProducto
           };
   
-          const carritoActualizado = await carritosApi.agregarItemAlCarrito(nuevoItem);
+          const carritoActualizado = await carritosApi.agregarItemAlCarrito(nuevoLineaCarrito);
           setCarrito(carritoActualizado);
         }
   
-        mostrarMensaje(`${producto.nombre} fue agregado al carrito!`, 'success');
+        mostrarMensaje(`${producto.nomProducto} fue agregado al carrito!`, 'success');
       } catch (error) {
         mostrarMensaje('No se pudo agregar el producto al carrito.', 'error');
         console.error("Error al agregar al carrito:", error);
@@ -51,7 +52,7 @@ export function useCarrito() {
           if (!item) return;
 
           const cantidadFinal = Math.max(1, nuevaCantidad);
-          const nuevoSubTotal = cantidadFinal * item.producto.precio;
+          const nuevoSubTotal = cantidadFinal * item.producto.precProducto;
 
           const itemActualizado = {
               ...item,

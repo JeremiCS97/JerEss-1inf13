@@ -18,7 +18,7 @@ import { Carrito } from '@/modelo/carrito';
 
 
 export default function Home() {
-  const [paginaActual, setPaginaActual] = useState<'productos' | 'clientes' | 'carrito' | 'ordenes'>('productos');
+  const [paginaActual, setPaginaActual] = useState<'productos' | 'clientes' | 'carrito' | 'docventas'>('productos');
 
   const { mensaje } = useMensaje();
   const productosHook = useProductos();
@@ -89,9 +89,9 @@ export default function Home() {
               )}
             </button>
             <button
-              onClick={() => setPaginaActual('ordenes')}
+              onClick={() => setPaginaActual('docventas')}
               className={`px-4 py-2 rounded-md transition duration-300 ease-in-out
-                ${paginaActual === 'ordenes' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white hover:bg-gray-700'}`}
+                ${paginaActual === 'docventas' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white hover:bg-gray-700'}`}
             >
               Órdenes
             </button>
@@ -129,7 +129,7 @@ export default function Home() {
           />
         )}
 
-        {paginaActual === 'ordenes' && (
+        {paginaActual === 'docventas' && (
           <PaginaOrdenes
             ordenes={ordenesHook.ordenes}
             clientes={clientesHook.clientes}

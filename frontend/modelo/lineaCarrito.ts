@@ -1,10 +1,11 @@
 import { Carrito } from "./carrito";
 import { Producto } from "./producto";
 
-export interface ItemCarrito {
+export interface LineaCarrito {
   id: number;
   carrito: Carrito;
   producto: Producto;
+  lineaCarrito: number; // corresponde al campo lineaCarrito en Java
   cantidad: number;
-  subTotal: number;
-};
+  total: number; 
+}

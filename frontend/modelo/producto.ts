@@ -1,8 +1,9 @@
 export interface Producto {
     id: number;
-    codigo: string;
-    nombre: string;
-    descripcion: string;
-    precio: number;
-    stock: number;
+    codProducto: string;
+    nomProducto: string;
+    descProducto: string;
+    precProducto: number; // Usamos number para BigDecimal en el frontend
+    cantProducto: number;
+    estaActivo: boolean;
 };

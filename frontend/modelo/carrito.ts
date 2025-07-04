@@ -1,10 +1,10 @@
 import { Cliente } from "./cliente";
-import { ItemCarrito } from "./itemCarrito";
+import { LineaCarrito } from "./lineaCarrito";
 
 export interface Carrito {
     id: number;
     nombre: string;
     fecha: Date;
     cliente: Cliente;
-    items?: ItemCarrito[];
+    items?: LineaCarrito[];
 };

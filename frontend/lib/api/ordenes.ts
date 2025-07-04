@@ -1,4 +1,4 @@
-import { ItemOrden } from "@/modelo/itemOrden";
+import { ItemOrden } from "@/modelo/lineaDocVenta";
 import { Orden } from "@/modelo/orden";
 
 

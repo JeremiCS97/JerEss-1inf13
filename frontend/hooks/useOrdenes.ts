@@ -4,11 +4,11 @@ import { useState } from 'react';
 import * as ordenessApi from '@/lib/api/ordenes';
 import { useMensaje } from '@/hooks/useMensaje';
 import { Carrito } from '@/modelo/carrito';
-import { Orden } from '@/modelo/orden';
-import { ItemOrden } from '@/modelo/itemOrden';
+import { DocVenta } from '@/modelo/docVenta';
+import { LineaDocVenta } from '@/modelo/lineaDocVenta';
 
 export function useOrdenes() {
-    const [ordenes, setOrdenes] = useState<Orden[]>([]);
+    const [ordenes, setOrdenes] = useState<DocVenta[]>([]);
     const [cargando, setCargando] = useState(false);
     const { mostrarMensaje } = useMensaje();
 
@@ -20,12 +20,12 @@ export function useOrdenes() {
 
         setCargando(true);
         try {
-            const subTotal = carrito.items.reduce((sum, item) => sum + item.subTotal, 0);
+            const subTotal = carrito.items.reduce((sum, item) => sum + item.total, 0);
             const igv = subTotal * 0.18;
             const total = subTotal + igv;
 
-            const nuevaOrdenPayload: Omit<Orden, 'id' | 'numero' | 'items'> & {
-                items: Omit<ItemOrden, 'id' | 'orden'>[]
+            const nuevaOrdenPayload: Omit<DocVenta, 'id' | 'numero' | 'items'> & {
+                items: Omit<LineaDocVenta, 'id' | 'orden'>[]
             } = {
                 carrito,
                 fecha: new Date(),
@@ -35,7 +35,7 @@ export function useOrdenes() {
                 items: carrito.items.map(item => ({
                     producto: item.producto,
                     cantidad: item.cantidad,
-                    subTotal: item.subTotal
+                    subTotal: item.total
                 }))
             };
 
