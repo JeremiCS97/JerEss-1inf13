@@ -1,2 +1,2 @@
-# JerEss-1inf13
+# jeress
 Repositorio para el proyecto del curso 1INF13
