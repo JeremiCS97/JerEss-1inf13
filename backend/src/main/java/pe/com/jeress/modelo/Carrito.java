@@ -1,6 +1,7 @@
 package pe.com.jeress.modelo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -34,7 +35,8 @@ public class Carrito {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCliente")
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnore
     private Cliente cliente;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -42,5 +44,6 @@ public class Carrito {
     private List<LineaCarrito> lineasCarrito = new ArrayList<>();
 
     @OneToOne(mappedBy = "carrito")
+    @JsonIgnore
     private DocVenta docVenta;
 }

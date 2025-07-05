@@ -1,6 +1,8 @@
 package pe.com.jeress.modelo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,19 +21,18 @@ public class LineaDocVenta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProducto")
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnore
     private Producto producto;
 
     @Column(name="cantidad")
     private int cantidad;
-
-    @Column(name = "precioUnitario")
-    private double precioUnitario;
 
     @Column(name="subTotal")
     private double subTotal;
 
     @OneToOne
     @JoinColumn(name = "idLineaCarrito")
+    @JsonIgnore
     private LineaCarrito lineaCarrito;
 }

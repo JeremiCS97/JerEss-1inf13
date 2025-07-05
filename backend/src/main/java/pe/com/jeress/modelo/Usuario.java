@@ -30,6 +30,4 @@ public class Usuario {
     @Column(name = "estaActivo")
     private Boolean estaActivo;
     
-    @OneToOne(mappedBy = "usuario")
-    private Cliente cliente;
 }

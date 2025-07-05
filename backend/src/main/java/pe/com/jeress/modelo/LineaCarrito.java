@@ -3,6 +3,8 @@ package pe.com.jeress.modelo;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,6 +24,7 @@ public class LineaCarrito {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProducto")
     //    @JsonBackReference
+    @JsonIgnore
     private Producto producto;
 
     @Column(name = "lineaCarrito")
@@ -34,6 +37,7 @@ public class LineaCarrito {
     private BigDecimal total;
 
     @OneToOne(mappedBy = "lineaCarrito")
+    @JsonIgnore
     private LineaDocVenta lineaDocVenta;
     
 }
