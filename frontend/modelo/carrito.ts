@@ -3,8 +3,10 @@ import { LineaCarrito } from "./lineaCarrito";
 
 export interface Carrito {
     id: number;
-    nombre: string;
-    fecha: Date;
+    numCarrito: number;
+    fecha: string; // Date → string (ISO)
+    total: number;
+    igv: number;
     cliente: Cliente;
-    items?: LineaCarrito[];
+    lineasCarrito?: LineaCarrito[];
 };

@@ -1,5 +1,5 @@
 import { Carrito } from "@/modelo/carrito";
-import { ItemCarrito } from "@/modelo/lineaCarrito";
+import { LineaCarrito } from "@/modelo/lineaCarrito";
 
 
 export async function getCarritos(): Promise<Carrito[]> {
@@ -71,7 +71,7 @@ export async function crearCarrito(carrito: Carrito): Promise<Carrito> {
     return response.json();
 }
 
-export async function agregarItemAlCarrito(nuevoItem: Omit<ItemCarrito, 'id'>): Promise<Carrito> {
+export async function agregarItemAlCarrito(nuevoItem: Omit<LineaCarrito, 'id'>): Promise<Carrito> {
     const baseUrl = process.env.NEXT_PUBLIC_URL_BASE_API;
     if (!baseUrl) {
         throw new Error('La URL base de la API no está definida');
@@ -84,20 +84,20 @@ export async function agregarItemAlCarrito(nuevoItem: Omit<ItemCarrito, 'id'>): 
 
     const updatedCarrito: Carrito = {
         ...carrito,
-        items: [...(carrito.items || []), { ...nuevoItem, id: Date.now() }] // ID temporal, si es necesario, el backend ignora
+        lineasCarrito: [...(carrito.lineasCarrito || []), { ...nuevoItem, id: Date.now() }] // ID temporal, si es necesario, el backend ignora
     };
 
     return actualizarCarrito(updatedCarrito.id, updatedCarrito);
 }
 
-export async function actualizarItemCarrito(item: ItemCarrito): Promise<Carrito> {
+export async function actualizarItemCarrito(item: LineaCarrito): Promise<Carrito> {
     const carrito = await getCarritoPorId(item.carrito.id);
     if (!carrito) {
         throw new Error(`El carrito con ID ${item.carrito.id} no existe`);
     }
 
-    const updatedItems = carrito.items?.map(i => i.id === item.id ? item : i) || [];
-    const updatedCarrito: Carrito = { ...carrito, items: updatedItems };
+    const updatedItems = carrito.lineasCarrito?.map(i => i.id === item.id ? item : i) || [];
+    const updatedCarrito: Carrito = { ...carrito, lineasCarrito: updatedItems };
 
     return actualizarCarrito(updatedCarrito.id, updatedCarrito);
 }
@@ -108,8 +108,8 @@ export async function eliminarItemDelCarrito(itemId: number, carritoId: number):
         throw new Error(`El carrito con ID ${carritoId} no existe`);
     }
 
-    const updatedItems = carrito.items?.filter(i => i.id !== itemId) || [];
-    const updatedCarrito: Carrito = { ...carrito, items: updatedItems };
+    const updatedItems = carrito.lineasCarrito?.filter(i => i.id !== itemId) || [];
+    const updatedCarrito: Carrito = { ...carrito, lineasCarrito: updatedItems };
 
     return actualizarCarrito(updatedCarrito.id, updatedCarrito);
 }

@@ -9,7 +9,7 @@ import ModalProducto from '@/componentes/ModalProducto';
 import ModalCliente from '@/componentes/ModalCliente';
 import { useCarrito } from '@/hooks/useCarrito';
 import { useClientes } from '@/hooks/useClientes';
-import { useOrdenes } from '@/hooks/useOrdenes';
+import { useDocVentas } from '@/hooks/useDocVentas';
 import { useProductos } from '@/hooks/useProductos';
 import { useMensaje } from '@/hooks/useMensaje';
 import { Producto } from '@/modelo/producto';
@@ -24,7 +24,7 @@ export default function Home() {
   const productosHook = useProductos();
   const clientesHook = useClientes();
   const carritoHook = useCarrito();
-  const ordenesHook = useOrdenes();
+  const ordenesHook = useDocVentas();
 
   const cargando = productosHook.cargando || clientesHook.cargando || ordenesHook.cargando;
   const carrito = carritoHook.carrito;
@@ -82,9 +82,9 @@ export default function Home() {
                 ${paginaActual === 'carrito' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white hover:bg-gray-700'}`}
             >
               Carrito
-              {carrito?.items && carrito.items.length > 0 && (
+              {carrito?.lineasCarrito && carrito.lineasCarrito.length > 0 && (
                 <span className="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                  {carrito.items.length}
+                  {carrito.lineasCarrito.length}
                 </span>
               )}
             </button>

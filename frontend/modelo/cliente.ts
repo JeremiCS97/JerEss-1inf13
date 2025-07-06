@@ -4,6 +4,8 @@ export interface Cliente {
     id: number;
     dni: string;
     nombre: string;
-    apellidos: string;
+    apePaterno: string;
+    apeMaterno: string;
+    fechaNacimiento: string;
     carritos: Carrito[];
 }

@@ -13,16 +13,16 @@ export function useCarrito() {
 
     const agregarAlCarrito = async (producto: Producto) => {
       try {
-        const existingItem = carrito.items?.find(item => item.producto.id === producto.id);
+        const existingItem = carrito.lineasCarrito?.find(item => item.producto.id === producto.id);
   
         if (existingItem) {
           const nuevaCantidad = existingItem.cantidad + 1;
-          const subTotal = nuevaCantidad * producto.precProducto;
+          const nuevoTotal = nuevaCantidad * producto.precProducto;
 
           const nuevoCarrito = await carritosApi.actualizarItemCarrito({
             ...existingItem,
             cantidad: nuevaCantidad,
-            subTotal: subTotal
+            total: nuevoTotal
           });
 
           setCarrito(nuevoCarrito);
@@ -48,7 +48,7 @@ export function useCarrito() {
     
     const actualizarCantidadEnCarrito = async (productoId: number, nuevaCantidad: number) => {
       try {
-          const item = carrito.items?.find(item => item.producto.id === productoId);
+          const item = carrito.lineasCarrito?.find(item => item.producto.id === productoId);
           if (!item) return;
 
           const cantidadFinal = Math.max(1, nuevaCantidad);
@@ -71,13 +71,13 @@ export function useCarrito() {
     
     const eliminarDelCarrito = async (productoId: number) => {
         try {
-          const item = carrito.items?.find(item => item.producto.id === productoId);
+          const item = carrito.lineasCarrito?.find(item => item.producto.id === productoId);
           if (!item) return;
     
           await carritosApi.eliminarItemDelCarrito(item.id, item.carrito.id);
     
           setCarrito(prevCarrito => {
-            const nuevosItems = prevCarrito.items?.filter(i => i.producto.id !== productoId) || [];
+            const nuevosItems = prevCarrito.lineasCarrito?.filter(i => i.producto.id !== productoId) || [];
             return { ...prevCarrito, items: nuevosItems };
           });
     

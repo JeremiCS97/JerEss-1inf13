@@ -1,30 +1,47 @@
 "use client";
 
 import { useState } from 'react';
-import * as ordenessApi from '@/lib/api/ordenes';
+import * as docVentassApi from '@/lib/api/docventas';
 import { useMensaje } from '@/hooks/useMensaje';
 import { Carrito } from '@/modelo/carrito';
 import { DocVenta } from '@/modelo/docVenta';
-import { LineaDocVenta } from '@/modelo/lineaDocVenta';
+import { Producto } from '@/modelo/producto';
+import { LineaCarrito } from '@/modelo/lineaCarrito';
 
-export function useOrdenes() {
+type NuevaLineaDocVenta = {
+    producto: Producto;
+    cantidad: number;
+    subTotal: number;
+    lineaCarrito: LineaCarrito;
+};
+
+type NuevaDocVenta = {
+    carrito: Carrito;
+    fecha: string;
+    subTotal: number;
+    igv: number;
+    total: number;
+    items: NuevaLineaDocVenta[];
+};
+
+export function useDocVentas() {
     const [ordenes, setOrdenes] = useState<DocVenta[]>([]);
     const [cargando, setCargando] = useState(false);
     const { mostrarMensaje } = useMensaje();
 
     const realizarPedido = async (carrito: Carrito, limpiarCarrito: () => void) => {
-        if (!carrito.items || carrito.items.length === 0) {
+        if (!carrito.lineasCarrito || carrito.lineasCarrito.length === 0) {
             mostrarMensaje('El carrito está vacío. Agrega productos antes de realizar el pedido.', 'error');
             return;
         }
 
         setCargando(true);
         try {
-            const subTotal = carrito.items.reduce((sum, item) => sum + item.total, 0);
+            const subTotal = carrito.lineasCarrito.reduce((sum, item) => sum + item.total, 0);
             const igv = subTotal * 0.18;
             const total = subTotal + igv;
 
-            const nuevaOrdenPayload: Omit<DocVenta, 'id' | 'numero' | 'items'> & {
+            /*const nuevaPayload: Omit<DocVenta, 'id' | 'numero' | 'items'> & {
                 items: Omit<LineaDocVenta, 'id' | 'orden'>[]
             } = {
                 carrito,
@@ -32,14 +49,27 @@ export function useOrdenes() {
                 subTotal,
                 igv,
                 total,
-                items: carrito.items.map(item => ({
+                items: carrito.lineasCarrito.map(item => ({
                     producto: item.producto,
                     cantidad: item.cantidad,
                     subTotal: item.total
                 }))
+            };*/
+            const nuevaPayload: NuevaDocVenta = {
+                carrito,
+                fecha: new Date().toISOString(),
+                subTotal,
+                igv,
+                total,
+                items: carrito.lineasCarrito.map(item => ({
+                    producto: item.producto,
+                    cantidad: item.cantidad,
+                    subTotal: item.total,
+                    lineaCarrito: item
+                }))
             };
 
-            const nuevaOrden = await ordenessApi.realizarPedido(nuevaOrdenPayload);
+            const nuevaOrden = await docVentassApi.realizarPedido(nuevaPayload);
 
             setOrdenes(prev => [...prev, nuevaOrden]);
             limpiarCarrito();
@@ -55,7 +85,7 @@ export function useOrdenes() {
     const obtenerPedidos = async () => {
         setCargando(true);
         try {
-            const lista = await ordenessApi.listarPedidos();
+            const lista = await docVentassApi.listarPedidos();
             setOrdenes(lista);
         } catch (error) {
             mostrarMensaje('No se pudieron cargar los pedidos.', 'error');
