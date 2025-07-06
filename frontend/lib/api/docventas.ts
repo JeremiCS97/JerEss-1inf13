@@ -1,13 +1,13 @@
-import { LineaDocVenta } from "@/modelo/lineaDocVenta";
 import { DocVenta } from "@/modelo/docVenta";
 import { Carrito } from "@/modelo/carrito";
 import { Producto } from "@/modelo/producto";
+import { LineaCarrito } from "@/modelo/lineaCarrito";
 
 type NuevaLineaDocVenta = {
   producto: Producto;
   cantidad: number;
   subTotal: number;
-  lineaCarrito: any; // Usa el tipo correcto si lo tienes
+  lineaCarrito: LineaCarrito; // Usa el tipo correcto si lo tienes
 };
 
 type NuevaDocVenta = {
