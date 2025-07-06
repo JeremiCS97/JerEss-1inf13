@@ -26,7 +26,8 @@ const ClientsPage: React.FC<PaginaClientesProps> = ({ clientes, setClienteSelecc
           <thead className="bg-gray-100 border-b border-gray-200">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellidos</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido Paterno</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido Materno</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
             </tr>
@@ -35,7 +36,8 @@ const ClientsPage: React.FC<PaginaClientesProps> = ({ clientes, setClienteSelecc
             {clientes.map((cliente) => (
               <tr key={cliente.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.nombre}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.apellidos}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.apePaterno}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.apeMaterno}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.dni}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button

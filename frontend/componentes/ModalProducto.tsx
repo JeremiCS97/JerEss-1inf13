@@ -9,17 +9,26 @@ interface ModalProductoProps {
   grabar: (producto: Producto | Omit<Producto, 'id'>) => Promise<void>;
 }
 
-const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar }) => {
-  const [codigo, setCodigo] = useState<string>(producto ? producto.codigo : '');
+/*const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar }) => {
+  const [codigo, setCodProducto] = useState<string>(producto ? producto.codigo : '');
   const [nombre, setNombre] = useState<string>(producto ? producto.nombre : '');
   const [descripcion, setDescripcion] = useState<string>(producto ? producto.descripcion : '');
   const [precio, setPrecio] = useState<number | string>(producto ? producto.precio : '');
   const [stock, setStock] = useState<number | string>(producto ? producto.stock : '');
+*/
+const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar }) => {
+  const [codProducto, setCodProducto] = useState<string>(producto ? producto.codProducto : '');
+  const [nomProducto, setNomProducto] = useState<string>(producto ? producto.nomProducto : '');
+  const [descProducto, setDescProducto] = useState<string>(producto ? producto.descProducto : '');
+  const [precProducto, setPrecProducto] = useState<number | string>(producto ? producto.precProducto : '');
+  const [cantProducto, setCantProducto] = useState<number | string>(producto ? producto.cantProducto : '');
+  const [estaActivo, setEstaActivo] = useState<boolean>(producto ? producto.estaActivo : true);
+
 
   const enviarFormulario = (e: React.FormEvent) => {
     e.preventDefault();
-    if (nombre && precio !== '' && stock !== '') {
-      grabar({ ...producto, codigo, nombre, descripcion, precio: parseFloat(precio as string), stock: parseInt(stock as string) } as Producto);
+    if (nomProducto && precProducto !== '' && cantProducto !== '') {
+      grabar({ ...producto, codProducto, nomProducto, descProducto, precio: parseFloat(precProducto as string), stock: parseInt(cantProducto as string), estaActivo } as Producto);
     }
   };
 
@@ -33,8 +42,8 @@ const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar 
             <input
               type="text"
               id="codigoProducto"
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value)}
+              value={codProducto}
+              onChange={(e) => setCodProducto(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
@@ -44,8 +53,8 @@ const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar 
             <input
               type="text"
               id="nombreProducto"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={nomProducto}
+              onChange={(e) => setNomProducto(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
@@ -55,8 +64,8 @@ const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar 
             <input
               type="text"
               id="descripcionProducto"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
+              value={descProducto}
+              onChange={(e) => setDescProducto(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
@@ -66,8 +75,8 @@ const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar 
             <input
               type="number"
               id="precioProducto"
-              value={precio}
-              onChange={(e) => setPrecio(e.target.value)}
+              value={precProducto}
+              onChange={(e) => setPrecProducto(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               step="1"
               required
@@ -78,10 +87,20 @@ const ModalProducto: React.FC<ModalProductoProps> = ({ producto, cerrar, grabar 
             <input
               type="number"
               id="stockProducto"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
+              value={cantProducto}
+              onChange={(e) => setCantProducto(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               required
+            />
+          </div>
+           <div>
+            <label htmlFor="estaActivo" className="block text-sm font-medium text-gray-700">Activo</label>
+            <input
+              type="checkbox"
+              id="estaActivo"
+              checked={estaActivo}
+              onChange={(e) => setEstaActivo(e.target.checked)}
+              className="mt-1"
             />
           </div>
           <div className="flex justify-end space-x-3">

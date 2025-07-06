@@ -12,12 +12,13 @@ interface ClientModalProps {
 const ModalCliente: React.FC<ClientModalProps> = ({ cliente, cerrar, grabar }) => {
     const [dni, setDni] = useState<string>(cliente ? cliente.dni : '');
     const [nombre, setNombre] = useState<string>(cliente ? cliente.nombre : '');
-    const [apellidos, setApellidos] = useState<string>(cliente ? cliente.apellidos || '' : '');
+    const [apellidoPaterno, setApellidoPaterno] = useState<string>(cliente ? cliente.apePaterno || '' : '');
+    const [apellidoMaterno, setApellidoMaterno] = useState<string>(cliente ? cliente.apeMaterno || '' : '');
 
   const enviarFormulario = (e: React.FormEvent) => {
     e.preventDefault();
     if (dni && nombre) {
-      grabar({ ...cliente, dni, nombre, apellidos } as Cliente);
+      grabar({ ...cliente, dni, nombre, apellidoPaterno,  apellidoMaterno} as Cliente);
     }
   };
 
@@ -53,8 +54,19 @@ const ModalCliente: React.FC<ClientModalProps> = ({ cliente, cerrar, grabar }) =
             <input
               type="text"
               id="apellidosCliente"
-              value={apellidos}
-              onChange={(e) => setApellidos(e.target.value)}
+              value={apellidoPaterno}
+              onChange={(e) => setApellidoPaterno(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="apellidosCliente" className="block text-sm font-medium text-gray-700">Apellidos</label>
+            <input
+              type="text"
+              id="apellidosCliente"
+              value={apellidoMaterno}
+              onChange={(e) => setApellidoMaterno(e.target.value)}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />

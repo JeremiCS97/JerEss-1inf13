@@ -43,10 +43,12 @@ const CartsPage: React.FC<PaginaCarritoProps> = ({ carrito, setCarrito, actualiz
             if (!carritoCliente) {
                 carritoCliente = await crearCarrito({
                     id: 0,
-                    nombre: `Carrito de ${cliente.nombre}`,
-                    fecha: new Date(),
+                    numCarrito: 0,
+                    fecha: new Date().toISOString(),
                     cliente,
-                    items: []
+                    lineasCarrito: [],
+                    total:0,
+                    igv:0
                 });
             }
 
@@ -62,7 +64,7 @@ const CartsPage: React.FC<PaginaCarritoProps> = ({ carrito, setCarrito, actualiz
         }
     }, [carrito]);
 
-    const totalCarrito = carrito.items?.reduce((sum, item) => sum + item.producto.precio * item.cantidad, 0);
+    const totalCarrito = carrito.lineasCarrito?.reduce((sum, item) => sum + item.producto.precProducto * item.cantidad, 0);
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">
@@ -79,13 +81,13 @@ const CartsPage: React.FC<PaginaCarritoProps> = ({ carrito, setCarrito, actualiz
                 <option value="">-- Selecciona un cliente --</option>
                 {clientes.map(cliente => (
                     <option key={cliente.id} value={cliente.id}>
-                        {cliente.nombre} {cliente.apellidos} - {cliente.dni}
+                        {cliente.nombre} {cliente.apePaterno} {cliente.apeMaterno} - {cliente.dni}
                     </option>
                 ))}
             </select>
         </div>
 
-        {carrito.items?.length === 0 ? (
+        {carrito.lineasCarrito?.length === 0 ? (
             <p className="text-gray-600">Tu carrito está vacío. Agrega algunos productos!</p>
         ) : (
             <div className="space-y-4">
@@ -101,10 +103,10 @@ const CartsPage: React.FC<PaginaCarritoProps> = ({ carrito, setCarrito, actualiz
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                    {carrito.items?.map((item) => (
+                    {carrito.lineasCarrito?.map((item) => (
                     <tr key={item.producto.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.producto.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.producto.precio.toFixed(2)}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.producto.nomProducto}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.producto.precProducto.toFixed(2)}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         <input
                             type="number"
@@ -114,7 +116,7 @@ const CartsPage: React.FC<PaginaCarritoProps> = ({ carrito, setCarrito, actualiz
                             className="w-20 border border-gray-300 rounded-md p-1 text-center"
                         />
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${(item.producto.precio * item.cantidad).toFixed(2)}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${(item.producto.precProducto * item.cantidad).toFixed(2)}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button
                             onClick={() => quitarProducto(item.producto.id)}

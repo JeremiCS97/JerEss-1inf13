@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 import { Cliente } from "@/modelo/cliente";
-import { Orden } from "@/modelo/orden";
+import { DocVenta } from "@/modelo/docVenta";
 
 interface PaginaOrdenesProps {
-  ordenes: Orden[];
+  ordenes: DocVenta[];
   clientes: Cliente[];
   obtenerPedidos: () => void;
 }
@@ -17,12 +17,12 @@ const PaginaOrdenes: React.FC<PaginaOrdenesProps> = ({ ordenes, clientes, obtene
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Tus Órdenes</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Tus Documentos de Venta</h1>
       {ordenes.length === 0 ? (
-        <p className="text-gray-600">No hay ordenes generadas aún.</p>
+        <p className="text-gray-600">No hay documentos generados aún.</p>
       ) : (
         <div className="space-y-6">
-          {ordenes.map((orden: Orden) => (
+          {ordenes.map((orden: DocVenta) => (
             <div key={orden.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50 shadow-sm">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="text-xl font-semibold text-gray-800">Id: {orden.id}</h2>
@@ -41,17 +41,17 @@ const PaginaOrdenes: React.FC<PaginaOrdenesProps> = ({ ordenes, clientes, obtene
                   </thead>
                   <tbody>
                     {orden.items?.map((item, index) => {
-                      const producto = orden.carrito?.items?.find(ci => ci.id === item.id)?.producto;
+                      const producto = orden.carrito?.lineasCarrito?.find(ci => ci.id === item.id)?.producto;
 
                       return (
                         <tr key={index} className="border-t border-gray-100">
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">{producto?.nombre ?? 'N/A'}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">{producto?.nomProducto ?? 'N/A'}</td>
                           <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">{item.cantidad}</td>
                           <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">
-                            ${producto ? producto.precio.toFixed(2) : 'N/A'}
+                            ${producto ? producto.precProducto.toFixed(2) : 'N/A'}
                           </td>
                           <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">
-                            ${producto ? (producto.precio * item.cantidad).toFixed(2) : 'N/A'}
+                            ${producto ? (producto.precProducto * item.cantidad).toFixed(2) : 'N/A'}
                           </td>
                         </tr>
                       );

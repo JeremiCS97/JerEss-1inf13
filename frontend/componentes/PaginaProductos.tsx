@@ -43,11 +43,12 @@ const PaginaProductos: React.FC<PaginaProductosProps> = ({
           <tbody className="divide-y divide-gray-200">
             {productos.map((producto) => (
               <tr key={producto.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.codigo}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.nombre}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.descripcion}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${producto.precio.toFixed(2)}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.stock}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.codProducto}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.nomProducto}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.descProducto}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${producto.precProducto.toFixed(2)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.cantProducto}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{producto.estaActivo ? "Sí" : "No"}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button
                     onClick={() => agregarAlCarrito(producto)}
