@@ -21,7 +21,7 @@ import { Carrito } from '@/modelo/carrito';
 
 export default function Home() {
   const [paginaActual, setPaginaActual] = useState<'productos' | 'clientes' | 'carrito' | 'docventas' | 'usuarios'>('productos');
-
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const { mensaje } = useMensaje();
   const productosHook = useProductos();
   const clientesHook = useClientes();

@@ -20,6 +20,7 @@ const PaginaUsuarios: React.FC<PaginaUsuariosProps> = ({
   cargando
 }) => {
   const [codUsuario, setCodUsuario] = useState("");
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [contrasen, setContrasen] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
 
@@ -132,11 +133,35 @@ const PaginaUsuarios: React.FC<PaginaUsuariosProps> = ({
         </div>
       </div>
       <button
-        onClick={cerrarSesion}
+        onClick={() => setMostrarConfirmacion(true)}
         className="mt-6 w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-      >
+        >
         Cerrar sesión
       </button>
+      {mostrarConfirmacion && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+            <div className="bg-white p-6 rounded shadow-lg text-center">
+            <p className="mb-4 text-lg">¿Estás seguro de que deseas cerrar la sesión?</p>
+            <div className="flex justify-center gap-4">
+                <button
+                onClick={() => {
+                    setMostrarConfirmacion(false);
+                    if (cerrarSesion) cerrarSesion();
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                Sí, cerrar sesión
+                </button>
+                <button
+                onClick={() => setMostrarConfirmacion(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+                >
+                Cancelar
+                </button>
+            </div>
+            </div>
+        </div>
+        )}
     </div>
   );
 };
