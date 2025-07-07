@@ -5,7 +5,7 @@ import PaginaProductos from '@/componentes/PaginaProductos';
 import PaginaClientes from '@/componentes/PaginaClientes';
 import PaginaCarrito from '@/componentes/PaginaCarrito';
 import PaginaOrdenes from '@/componentes/PaginaOrdenes';
-//import PaginaUsuarios from '@/componentes/PaginaUsuarios';
+import PaginaUsuarios from '@/componentes/PaginaUsuarios';
 import ModalProducto from '@/componentes/ModalProducto';
 import ModalCliente from '@/componentes/ModalCliente';
 import { useCarrito } from '@/hooks/useCarrito';
@@ -13,7 +13,7 @@ import { useClientes } from '@/hooks/useClientes';
 import { useDocVentas } from '@/hooks/useDocVentas';
 import { useProductos } from '@/hooks/useProductos';
 import { useMensaje } from '@/hooks/useMensaje';
-//import { useUsuario } from '@/hooks/useUsuario';
+import { useUsuario } from '@/hooks/useUsuario';
 import { Producto } from '@/modelo/producto';
 import { Cliente } from '@/modelo/cliente';
 import { Carrito } from '@/modelo/carrito';
@@ -27,9 +27,9 @@ export default function Home() {
   const clientesHook = useClientes();
   const carritoHook = useCarrito();
   const ordenesHook = useDocVentas();
-  //const usuarioHook = useUsuario();
+  const usuarioHook = useUsuario();
 
-  const cargando = productosHook.cargando || clientesHook.cargando || ordenesHook.cargando /*|| usuarioHook.cargando*/;
+  const cargando = productosHook.cargando || clientesHook.cargando || ordenesHook.cargando || usuarioHook.cargando;
   const carrito = carritoHook.carrito;
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export default function Home() {
               Doc.Ventas
             </button>
             <button
-              //onClick={() => setPaginaActual('usuarios')}
+              onClick={() => setPaginaActual('usuarios')}
               className="p-2 rounded-full bg-gray-700 hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
               title="Usuario"
             >
@@ -152,10 +152,13 @@ export default function Home() {
         )}
         
         {paginaActual === 'usuarios' && (
-          null/*<PaginaUsuarios
-            usuarios={usuarioHook.usuarios}
-            clientes={clientesHook.clientes}
-          />*/
+          <PaginaUsuarios
+            usuarioActual={usuarioHook.usuarioActual}
+            iniciarSesion={usuarioHook.iniciarSesion}
+            error={usuarioHook.error}
+            cargando={usuarioHook.cargando}
+            setMostrarModalUsuario={usuarioHook.setMostrarModalUsuario}
+          />
         )}
       </main>
 
