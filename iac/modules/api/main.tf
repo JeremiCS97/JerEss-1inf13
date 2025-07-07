@@ -92,6 +92,14 @@ resource "aws_apigatewayv2_integration" "usuarios_integration" {
   payload_format_version = "1.0"
 }
 
+resource "aws_apigatewayv2_integration" "usuarios_login_integration" {
+  api_id                 = aws_apigatewayv2_api.http_api.id
+  integration_type       = "HTTP_PROXY"
+  integration_uri        = "http://${var.load_balancer_url}/api/usuarios/login"
+  integration_method     = "POST"
+  payload_format_version = "1.0"
+}
+
 # EventBridge Integration (solo si lo usas para docventas POST/PUT)
 resource "aws_apigatewayv2_integration" "eventbridge_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
@@ -294,5 +302,5 @@ resource "aws_apigatewayv2_route" "usuarios_delete_proxy" {
 resource "aws_apigatewayv2_route" "usuarios_login_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /usuarios/login"
-  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration_get_all.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_login_integration.id}"
 }
