@@ -75,6 +75,23 @@ resource "aws_apigatewayv2_integration" "docventas_integration" {
   payload_format_version = "1.0"
 }
 
+#Integraciones Usuarios
+resource "aws_apigatewayv2_integration" "usuarios_integration_get_all" {
+  api_id                 = aws_apigatewayv2_api.http_api.id
+  integration_type       = "HTTP_PROXY"
+  integration_uri        = "http://${var.load_balancer_url}/api/usuarios"
+  integration_method     = "ANY"
+  payload_format_version = "1.0"
+}
+
+resource "aws_apigatewayv2_integration" "usuarios_integration" {
+  api_id                 = aws_apigatewayv2_api.http_api.id
+  integration_type       = "HTTP_PROXY"
+  integration_uri        = "http://${var.load_balancer_url}/api/usuarios/{proxy}"
+  integration_method     = "ANY"
+  payload_format_version = "1.0"
+}
+
 # EventBridge Integration (solo si lo usas para docventas POST/PUT)
 resource "aws_apigatewayv2_integration" "eventbridge_integration" {
   api_id                 = aws_apigatewayv2_api.http_api.id
@@ -236,4 +253,39 @@ resource "aws_apigatewayv2_route" "carritos_delete_proxy" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "DELETE /carritos/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.carritos_integration.id}"
+}
+
+
+#########################################
+# Routes - Usuarios
+#########################################
+
+resource "aws_apigatewayv2_route" "usuarios_get_all" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "GET /usuarios"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration_get_all.id}"
+}
+
+resource "aws_apigatewayv2_route" "usuarios_get_proxy" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "GET /usuarios/{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "usuarios_post" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "POST /usuarios"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration_get_all.id}"
+}
+
+resource "aws_apigatewayv2_route" "usuarios_put_proxy" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "PUT /usuarios/{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "usuarios_delete_proxy" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "DELETE /usuarios/{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration.id}"
 }
