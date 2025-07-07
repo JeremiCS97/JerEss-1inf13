@@ -5,6 +5,7 @@ import { Usuario } from "@/modelo/usuario";
 interface PaginaUsuariosProps {
   usuarioActual: Usuario | null;
   iniciarSesion?: (codUsuario: string, contrasen: string) => Promise<void>;
+  cerrarSesion?: () => void;
   setMostrarModalUsuario?: (mostrar: boolean) => void;
   error?: string | null;
   cargando?: boolean;
@@ -13,6 +14,7 @@ interface PaginaUsuariosProps {
 const PaginaUsuarios: React.FC<PaginaUsuariosProps> = ({
   usuarioActual,
   iniciarSesion,
+  cerrarSesion,
   setMostrarModalUsuario,
   error,
   cargando
@@ -129,6 +131,12 @@ const PaginaUsuarios: React.FC<PaginaUsuariosProps> = ({
           </span>
         </div>
       </div>
+      <button
+        onClick={cerrarSesion}
+        className="mt-6 w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+      >
+        Cerrar sesión
+      </button>
     </div>
   );
 };

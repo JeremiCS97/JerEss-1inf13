@@ -155,6 +155,7 @@ export default function Home() {
           <PaginaUsuarios
             usuarioActual={usuarioHook.usuarioActual}
             iniciarSesion={usuarioHook.iniciarSesion}
+            cerrarSesion={usuarioHook.cerrarSesion} 
             error={usuarioHook.error}
             cargando={usuarioHook.cargando}
             setMostrarModalUsuario={usuarioHook.setMostrarModalUsuario}
