@@ -6,6 +6,8 @@ import pe.com.jeress.modelo.Usuario;
 import pe.com.jeress.service.UsuarioService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -59,5 +61,20 @@ public class UsuarioController {
         return usuarioService.obtenerPorCorreo(correo)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+        String codUsuario = body.get("codUsuario");
+        String contrasen = body.get("contrasen");
+        Optional<Usuario> usuarioOpt = usuarioService.obtenerPorCodUsuario(codUsuario);
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Usuario no encontrado");
+        }
+        Usuario usuario = usuarioOpt.get();
+        if (!usuario.getContrasen().equals(contrasen)) {
+            return ResponseEntity.status(401).body("Contraseña incorrecta");
+        }
+        return ResponseEntity.ok(usuario);
     }
 }
