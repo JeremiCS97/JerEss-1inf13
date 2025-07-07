@@ -11,7 +11,7 @@ interface ClientModalProps {
 
 const ModalCliente: React.FC<ClientModalProps> = ({ cliente, cerrar, grabar }) => {
     const [dni, setDni] = useState<string>(cliente ? cliente.dni : '');
-    const [nombre, setNombre] = useState<string>(cliente ? cliente.nombre : '');
+    const [nombre, setNombre] = useState<string>(cliente ? cliente.nombres : '');
     const [apellidoPaterno, setApellidoPaterno] = useState<string>(cliente ? cliente.apePaterno || '' : '');
     const [apellidoMaterno, setApellidoMaterno] = useState<string>(cliente ? cliente.apeMaterno || '' : '');
 
@@ -50,7 +50,7 @@ const ModalCliente: React.FC<ClientModalProps> = ({ cliente, cerrar, grabar }) =
             />
           </div>
           <div>
-            <label htmlFor="apellidosCliente" className="block text-sm font-medium text-gray-700">Apellidos</label>
+            <label htmlFor="apellidosCliente" className="block text-sm font-medium text-gray-700">Apellido paterno</label>
             <input
               type="text"
               id="apellidosCliente"
@@ -61,7 +61,7 @@ const ModalCliente: React.FC<ClientModalProps> = ({ cliente, cerrar, grabar }) =
             />
           </div>
           <div>
-            <label htmlFor="apellidosCliente" className="block text-sm font-medium text-gray-700">Apellidos</label>
+            <label htmlFor="apellidosCliente" className="block text-sm font-medium text-gray-700">Apellido materno</label>
             <input
               type="text"
               id="apellidosCliente"

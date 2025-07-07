@@ -81,7 +81,7 @@ const CartsPage: React.FC<PaginaCarritoProps> = ({ carrito, setCarrito, actualiz
                 <option value="">-- Selecciona un cliente --</option>
                 {clientes.map(cliente => (
                     <option key={cliente.id} value={cliente.id}>
-                        {cliente.nombre} {cliente.apePaterno} {cliente.apeMaterno} - {cliente.dni}
+                        {cliente.nombres} {cliente.apePaterno} {cliente.apeMaterno} - {cliente.dni}
                     </option>
                 ))}
             </select>

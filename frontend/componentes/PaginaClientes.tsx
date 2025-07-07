@@ -35,7 +35,7 @@ const ClientsPage: React.FC<PaginaClientesProps> = ({ clientes, setClienteSelecc
           <tbody className="divide-y divide-gray-200">
             {clientes.map((cliente) => (
               <tr key={cliente.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.nombre}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.nombres}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.apePaterno}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.apeMaterno}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cliente.dni}</td>

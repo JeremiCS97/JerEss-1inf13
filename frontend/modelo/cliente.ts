@@ -3,7 +3,7 @@ import { Carrito } from "./carrito";
 export interface Cliente {
     id: number;
     dni: string;
-    nombre: string;
+    nombres: string;
     apePaterno: string;
     apeMaterno: string;
     fechaNacimiento: string;

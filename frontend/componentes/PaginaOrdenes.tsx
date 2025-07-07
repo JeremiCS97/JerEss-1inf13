@@ -28,7 +28,7 @@ const PaginaOrdenes: React.FC<PaginaOrdenesProps> = ({ ordenes, clientes, obtene
                 <h2 className="text-xl font-semibold text-gray-800">Id: {orden.id}</h2>
                 <span className="text-sm text-gray-600">Fecha: {new Date(orden.fecha).toLocaleDateString()}</span>
               </div>
-              <p className="text-gray-700 mb-2">Cliente: {clientes.find(c => c.id === orden.carrito?.cliente?.id)?.nombre || 'N/A'}</p>
+              <p className="text-gray-700 mb-2">Cliente: {clientes.find(c => c.id === orden.carrito?.cliente?.id)?.nombres || 'N/A'}</p>
               <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-200 rounded-md">
                   <thead className="bg-gray-100">

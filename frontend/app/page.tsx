@@ -5,6 +5,7 @@ import PaginaProductos from '@/componentes/PaginaProductos';
 import PaginaClientes from '@/componentes/PaginaClientes';
 import PaginaCarrito from '@/componentes/PaginaCarrito';
 import PaginaOrdenes from '@/componentes/PaginaOrdenes';
+//import PaginaUsuarios from '@/componentes/PaginaUsuarios';
 import ModalProducto from '@/componentes/ModalProducto';
 import ModalCliente from '@/componentes/ModalCliente';
 import { useCarrito } from '@/hooks/useCarrito';
@@ -12,21 +13,23 @@ import { useClientes } from '@/hooks/useClientes';
 import { useDocVentas } from '@/hooks/useDocVentas';
 import { useProductos } from '@/hooks/useProductos';
 import { useMensaje } from '@/hooks/useMensaje';
+//import { useUsuario } from '@/hooks/useUsuario';
 import { Producto } from '@/modelo/producto';
 import { Cliente } from '@/modelo/cliente';
 import { Carrito } from '@/modelo/carrito';
 
 
 export default function Home() {
-  const [paginaActual, setPaginaActual] = useState<'productos' | 'clientes' | 'carrito' | 'docventas'>('productos');
+  const [paginaActual, setPaginaActual] = useState<'productos' | 'clientes' | 'carrito' | 'docventas' | 'usuarios'>('productos');
 
   const { mensaje } = useMensaje();
   const productosHook = useProductos();
   const clientesHook = useClientes();
   const carritoHook = useCarrito();
   const ordenesHook = useDocVentas();
+  //const usuarioHook = useUsuario();
 
-  const cargando = productosHook.cargando || clientesHook.cargando || ordenesHook.cargando;
+  const cargando = productosHook.cargando || clientesHook.cargando || ordenesHook.cargando /*|| usuarioHook.cargando*/;
   const carrito = carritoHook.carrito;
 
   useEffect(() => {
@@ -60,7 +63,7 @@ export default function Home() {
 
       <nav className="bg-gray-800 p-4 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="text-white text-2xl font-bold rounded-lg">Mi Tienda Virtual</div>
+          <div className="text-white text-2xl font-bold rounded-lg">JerEss - E-Commerce</div>
           <div className="flex space-x-6">
             <button
               onClick={() => setPaginaActual('productos')}
@@ -93,7 +96,18 @@ export default function Home() {
               className={`px-4 py-2 rounded-md transition duration-300 ease-in-out
                 ${paginaActual === 'docventas' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white hover:bg-gray-700'}`}
             >
-              Órdenes
+              Doc.Ventas
+            </button>
+            <button
+              //onClick={() => setPaginaActual('usuarios')}
+              className="p-2 rounded-full bg-gray-700 hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
+              title="Usuario"
+            >
+              {/* Icono de usuario SVG */}
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
             </button>
           </div>
         </div>
@@ -135,6 +149,13 @@ export default function Home() {
             clientes={clientesHook.clientes}
             obtenerPedidos={ordenesHook.obtenerPedidos}
           />
+        )}
+        
+        {paginaActual === 'usuarios' && (
+          null/*<PaginaUsuarios
+            usuarios={usuarioHook.usuarios}
+            clientes={clientesHook.clientes}
+          />*/
         )}
       </main>
 
