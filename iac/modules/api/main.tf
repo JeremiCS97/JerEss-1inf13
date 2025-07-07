@@ -290,8 +290,9 @@ resource "aws_apigatewayv2_route" "usuarios_delete_proxy" {
   target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration.id}"
 }
 
+
 resource "aws_apigatewayv2_route" "usuarios_login_post" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /usuarios/login"
-  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.usuarios_integration_get_all.id}"
 }
